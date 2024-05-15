@@ -1,4 +1,4 @@
-import FilledButton from "../shared/FilledButton";
+import FilledButton from "./shared/FilledButton";
 
 const LoginPage = () => {
     return (
