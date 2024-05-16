@@ -1,8 +1,6 @@
 import './Header.css';
 import ToggleLoginBtn from "../toggle-login-btn/ToggleLoginBtn";
 
-const eyeIcon = require('../../images/eye-icon.png');
-
 const Header = (props) => {
     return (
         <header>
