@@ -6,7 +6,7 @@ const eyeIcon = require('../../images/eye-icon.png');
 const Header = (props) => {
     return (
         <header>
-            <span className='page-title'>NiteLog</span>
+            <span className="page-title">NiteLog</span>
             <ToggleLoginBtn
                 isLoginToggled={props.isLoginToggled}
                 setIsLoginToggled={props.setIsLoginToggled}

@@ -15,7 +15,7 @@ const UserAuth = () => {
                 setIsLoginToggled={setIsLoginToggled}
             />
 
-            <span className='task-description'>Registre sua presença.</span>
+            <span className="task-description">Registre sua presença.</span>
 
             {isLoginToggled ? (
                 <LoginPage/>

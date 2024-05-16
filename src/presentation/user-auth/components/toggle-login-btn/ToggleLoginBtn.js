@@ -1,8 +1,8 @@
 import './ToggleLoginBtn.css';
 
 const ToggleLoginBtn = (props) => {
-    const loginBtnClassNames = props.isLoginToggled? 'toggle-btn active' : 'toggle-btn';
-    const signupBtnClassNames = props.isLoginToggled? 'toggle-btn' : 'active toggle-btn';
+    const loginBtnClassNames = props.isLoginToggled? "toggle-btn active" : "toggle-btn";
+    const signupBtnClassNames = props.isLoginToggled? "toggle-btn" : "active toggle-btn";
 
     const handleLoginBtnClick = () => {
         props.setIsLoginToggled(true);
@@ -13,7 +13,7 @@ const ToggleLoginBtn = (props) => {
     }
 
     return (
-        <div className='toggle-btn-container'>
+        <div className="toggle-btn-container">
             <button
                 className={loginBtnClassNames}
                 onClick={handleLoginBtnClick}
