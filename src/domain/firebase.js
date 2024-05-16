@@ -1,8 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import {getAuth} from "firebase/auth";
+import {googleApiKey} from "../configFiles";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC6Ic2IjXkSoEOzzbPBLkWmeU4H5lTOhP4",
+    apiKey: `${googleApiKey}`,
     authDomain: "nitelog-1e1a5.firebaseapp.com",
     projectId: "nitelog-1e1a5",
     storageBucket: "nitelog-1e1a5.appspot.com",
