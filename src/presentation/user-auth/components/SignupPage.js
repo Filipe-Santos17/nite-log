@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {auth} from "../../../domain/firebase";
+import {auth} from "../../../service/firebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 
 import FilledButton from "./shared/FilledButton";
