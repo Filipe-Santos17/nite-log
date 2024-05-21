@@ -1,13 +1,16 @@
 import {useState} from "react";
-import {auth} from "../../../service/firebase";
+import {useAuth} from "../../../hooks/useAuth.ts";
 
 import FilledButton from "./shared/FilledButton";
 import Loading from "./shared/Loading";
-import {signInWithEmailAndPassword} from "@firebase/auth";
 
 const LoginPage = () => {
+    const {
+        isLoading,
+        logUserIn
+    } = useAuth()
+
     const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [formValues, setFormValues] = useState({
         email: '',
         password: ''
@@ -30,33 +33,14 @@ const LoginPage = () => {
         return false;
     };
 
-    const submitHandler = async (e) => {
+    const submitHandler = (e) => {
         e.preventDefault();
 
         if (checkErrors()) {
             return;
         }
 
-        setIsLoading(true);
-
-        signInWithEmailAndPassword(auth, formValues.email, formValues.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-                return user;
-            })
-            .then((user) => {
-                alert('Login realizado com sucesso!');
-                console.log(user.displayName);
-                // add user to attendance list, if not already there, add field for time of entry
-            })
-            .catch((error) => {
-                console.log(error);
-                alert(`Erro ao realizar login: ${error.message}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+        logUserIn(formValues.email, formValues.password);
     }
 
     return (

@@ -1,13 +1,16 @@
 import {useState} from "react";
-import {auth} from "../../../service/firebase";
-import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import {useAuth} from "../../../hooks/useAuth.ts";
 
 import FilledButton from "./shared/FilledButton";
 import Loading from "./shared/Loading";
 
 const SignupPage = () => {
+    const {
+        isLoading,
+        createUser
+    } = useAuth();
+
     const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [formValues, setFormValues] = useState({
         username: '',
         email: '',
@@ -38,31 +41,11 @@ const SignupPage = () => {
             return;
         }
 
-        setIsLoading(true);
-
-        createUserWithEmailAndPassword(auth, formValues.email, formValues.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-            })
-            .then(() => {
-                updateProfile(auth.currentUser, {
-                    displayName: formValues.username
-                })
-                .then(() => {
-                    alert('Conta criada com sucesso!');
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert(`Erro ao criar a conta: ${error.message}`);
-                })
-            })
-            .catch((error) => {
-                alert(`Erro ao criar a conta: ${error.message}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+        createUser(
+            formValues.username,
+            formValues.email,
+            formValues.password
+        );
     }
 
     return (
