@@ -1,24 +1,34 @@
 import {useState} from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../service/firebase";
-// @ts-ignore
-import {User} from "../models/User.ts";
+import { auth } from "../../service/firebase";
+import { IUser } from "../../types/User";
 
-export const useAuth = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [user, setUser] = useState<User>();
+interface IUseAuthReturn {
+    isLoading: boolean,
+    user: IUser | undefined,
+    createUser(displayName: string, email: string, password: string): void,
+    logUserIn(email: string, password: string): void
+}
 
-    const createUser = (username: string, email: string, password: string) => {
+export const useAuth = (): IUseAuthReturn => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [user, setUser] = useState<IUser>();
+
+    const createUser = (displayName: string, email: string, password: string) => {
         setIsLoading(true);
 
         createUserWithEmailAndPassword(auth, email, password)
             .then((_) => {
-                const user = new User(username, email);
+                // User is created and userState is set to it.
+                const user: IUser = {
+                    displayName: displayName,
+                    email: email,
+                    schedule: undefined,
+                    userId: ""
+                }
                 setUser(user);
-                // add user to database and to attendees list
-            })
-            .then(() => {
                 alert("Conta criada com sucesso!");
+                // TODO: add user to database and to attendees list
             })
             .catch((error) => {
                 alert("Erro ao criar conta: " + error.message);

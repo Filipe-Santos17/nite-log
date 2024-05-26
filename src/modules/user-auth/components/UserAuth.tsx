@@ -1,9 +1,9 @@
 import './UserAuth.css';
-import {useState} from "react";
+import React, {useState} from "react";
 
-import LoginPage from "./components/LoginPage";
-import SignupPage from "./components/SignupPage";
-import Header from "./components/header/Header";
+import Header from "../../core/components/header/Header";
+import LoginPage from "./login-signup/LoginPage";
+import SignupPage from "./login-signup/SignupPage";
 
 const UserAuth = () => {
     const [isLoginToggled, setIsLoginToggled] = useState(true)

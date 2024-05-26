@@ -1,15 +1,21 @@
 import './ToggleLoginBtn.css';
+import React from "react";
 
-const ToggleLoginBtn = (props) => {
-    const loginBtnClassNames = props.isLoginToggled? "toggle-btn active" : "toggle-btn";
-    const signupBtnClassNames = props.isLoginToggled? "toggle-btn" : "active toggle-btn";
+type ToggleLoginBtnProps = {
+    isLoginToggled: boolean;
+    setIsLoginToggled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ToggleLoginBtn = ({isLoginToggled, setIsLoginToggled}: ToggleLoginBtnProps) => {
+    const loginBtnClassNames: string = isLoginToggled? "toggle-btn active" : "toggle-btn";
+    const signupBtnClassNames: string = isLoginToggled? "toggle-btn" : "active toggle-btn";
 
     const handleLoginBtnClick = () => {
-        props.setIsLoginToggled(true);
+        setIsLoginToggled(true);
     }
 
     const handleSignupBtnClick = () => {
-        props.setIsLoginToggled(false);
+        setIsLoginToggled(false);
     }
 
     return (
