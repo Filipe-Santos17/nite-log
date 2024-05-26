@@ -49,6 +49,6 @@ export const useAuth = () => {
         isLoading,
         user,
         createUser,
-        login: logUserIn
+        logUserIn
     };
 }
