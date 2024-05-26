@@ -35,8 +35,6 @@ export const useAuth = () => {
             .then((_) => {
                 // get user from database
                 // do stuff with user
-            })
-            .then(() => {
                 alert("Login realizado com sucesso!");
             })
             .catch((error) => {

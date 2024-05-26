@@ -3,6 +3,7 @@ import {useAuth} from "../../../hooks/useAuth.ts";
 
 import FilledButton from "./shared/FilledButton";
 import Loading from "./shared/Loading";
+import {checkValues} from "../../../utils/utils";
 
 const LoginPage = () => {
     const {
@@ -23,20 +24,10 @@ const LoginPage = () => {
         });
     };
 
-    const checkErrors = () => {
-        if (formValues.email === '' || formValues.password === '') {
-            setIsError(true);
-            return true;
-        }
-
-        setIsError(false);
-        return false;
-    };
-
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (checkErrors()) {
+        if (checkValues(formValues, setIsError)) {
             return;
         }
 
