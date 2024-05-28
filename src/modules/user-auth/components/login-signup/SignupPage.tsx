@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../../../core/hooks/auth/useAuth";
 
-import FieldErrorMsg from "../FieldErrorMsg/FieldErrorMsg";
+import FieldErrorMsg from "../field-error-msg/FieldErrorMsg";
 import TextInput from "../../../core/components/custom-input/TextInput";
 import EmailInput from "../../../core/components/custom-input/EmailInput";
 import PasswordInput from "../../../core/components/custom-input/PasswordInput";

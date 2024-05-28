@@ -4,39 +4,14 @@ import "./ScheduleTable.css";
 
 import Card from "../card/Card";
 import {ISchedule} from "../../../core/types/Schedule";
-import ScheduleLine from "./ScheduleLine/ScheduleLine";
+import ScheduleLine from "./schedule-line/ScheduleLine";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
+import IconButton from "../../../core/components/icon-btn/IconButton";
 
-const defaultScheduleList: ISchedule[] = [
-    {
-        dayOfWeek: 0,
-        fromTime: "08:00",
-        toTime: "12:00"
-    },
-    {
-        dayOfWeek: 1,
-        fromTime: "08:00",
-        toTime: "12:00"
-    },
-    {
-        dayOfWeek: 2,
-        fromTime: "08:00",
-        toTime: "12:00"
-    },
-    {
-        dayOfWeek: 3,
-        fromTime: "08:00",
-        toTime: "12:00"
-    },
-    {
-        dayOfWeek: 4,
-        fromTime: "08:00",
-        toTime: "12:00"
-    }
-]
+const addIcon = require("../../assets/icons/add.png");
 
 const ScheduleTable = () => {
-    const [scheduleList, setScheduleList] = useState<ISchedule[]>(defaultScheduleList)
+    const [scheduleList, setScheduleList] = useState<ISchedule[]>([])
 
     const handleScheduleChange = (index: number, schedule: ISchedule) => {
         setScheduleList((prevScheduleList) => {
@@ -44,6 +19,19 @@ const ScheduleTable = () => {
             newScheduleList[index] = schedule;
             return newScheduleList;
         })
+    }
+
+    const handleAddSchedule = () => {
+        if (scheduleList.length < 5) {
+            setScheduleList(prevScheduleList => [
+                ...prevScheduleList,
+                {
+                    dayOfWeek: 0,
+                    fromTime: "08:00",
+                    toTime: "12:00"
+                }
+            ])
+        }
     }
 
     // TODO: Implement the logic to save the scheduleList in the database
@@ -62,7 +50,14 @@ const ScheduleTable = () => {
 
             <span className="spacer"></span>
 
-            <FilledButton title="Confirmar"/>
+            <IconButton
+                icon={addIcon}
+                alt={"Novo horário"}
+                title={"Novo Horário"}
+                onClick={handleAddSchedule}
+                className="add-schedule-btn"
+            />
+            <FilledButton title="Salvar"/>
         </Card>
     );
 };

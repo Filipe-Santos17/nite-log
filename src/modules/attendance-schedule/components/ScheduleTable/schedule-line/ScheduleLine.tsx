@@ -3,8 +3,9 @@ import React from "react";
 import "./ScheduleLine.css";
 
 import {ISchedule} from "../../../../core/types/Schedule";
-import {DayOfWeek, getDayOfWeek} from "../../../../core/types/DayOfWeek";
-import HoursDropdown from "../HoursDropdown/HoursDropdown";
+
+import HoursDropdown from "../dropdown/HoursDropdown";
+import WeekDaysDropdown from "../dropdown/WeekDaysDropdown";
 
 type ScheduleLineProps = {
     schedule: ISchedule
@@ -12,11 +13,12 @@ type ScheduleLineProps = {
 }
 
 const ScheduleLine = ({schedule, onChange}: ScheduleLineProps) => {
-    const dayOfWeek: string = getDayOfWeek(schedule.dayOfWeek as DayOfWeek);
-
     return (
         <div className="schedule-line">
-            <span>{dayOfWeek}</span>
+            <WeekDaysDropdown
+                selectedDayOfWeek={schedule.dayOfWeek}
+                onChange={(dayOfWeek) => onChange({...schedule, dayOfWeek})}
+            />
             <HoursDropdown
                 selectedHour={schedule.fromTime}
                 onChange={(fromTime) => onChange({...schedule, fromTime})}

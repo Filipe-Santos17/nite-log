@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import "./HoursDropdown.css";
+import "./DropdownStyles.css";
 import {generateHours} from "../../../utils/utils";
 
 const hours = generateHours(7, 22, 30);

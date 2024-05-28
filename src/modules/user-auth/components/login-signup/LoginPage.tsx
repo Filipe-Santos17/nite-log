@@ -4,7 +4,7 @@ import {useAuth} from "../../../core/hooks/auth/useAuth";
 import {UserContext} from "../../../core/context/userContext";
 import {UserContextType} from "../../../core/types/User";
 
-import FieldErrorMsg from "../FieldErrorMsg/FieldErrorMsg";
+import FieldErrorMsg from "../field-error-msg/FieldErrorMsg";
 import EmailInput from "../../../core/components/custom-input/EmailInput";
 import PasswordInput from "../../../core/components/custom-input/PasswordInput";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";

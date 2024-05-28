@@ -5,7 +5,7 @@ import "./AttendanceAndSchedules.css";
 import {UserContextType} from "../../core/types/User";
 import {UserContext} from "../../core/context/userContext";
 import AttendanceHeader from "./header/AttendanceHeader";
-import AttendanceTracker from "./AttandanceTracker/AttendanceTracker";
+import AttendanceTracker from "./attendance-tracker/AttendanceTracker";
 import ScheduleTable from "./ScheduleTable/ScheduleTable";
 
 const AttendanceAndSchedules = () => {
