@@ -1,10 +1,13 @@
 import React from "react";
 
-import UserAuth from "./modules/user-auth/components/UserAuth";
+import UserProvider from "./modules/core/context/userContext";
+import MainPage from "./modules/core/components/MainPage";
 
 function App() {
     return (
-        <UserAuth />
+        <UserProvider>
+            <MainPage/>
+        </UserProvider>
     );
 }
 

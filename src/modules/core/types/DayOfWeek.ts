@@ -1,9 +1,22 @@
 export enum DayOfWeek {
-    DOMINGO = 0,
-    SEGUNDA = 1,
-    TERCA = 2,
-    QUARTA = 3,
-    QUINTA = 4,
-    SEXTA = 5,
-    SABADO = 6
+    SEGUNDA = 0,
+    TERCA = 1,
+    QUARTA = 2,
+    QUINTA = 3,
+    SEXTA = 4,
+}
+
+export const getDayOfWeek = (dayOfWeek: DayOfWeek): string => {
+    switch (dayOfWeek) {
+        case DayOfWeek.SEGUNDA:
+            return "Segunda"
+        case DayOfWeek.TERCA:
+            return "Terça"
+        case DayOfWeek.QUARTA:
+            return "Quarta"
+        case DayOfWeek.QUINTA:
+            return "Quinta"
+        case DayOfWeek.SEXTA:
+            return "Sexta"
+    }
 }

@@ -1,5 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuth} from "../../../core/hooks/auth/useAuth";
+
+import {UserContext} from "../../../core/context/userContext";
+import {UserContextType} from "../../../core/types/User";
 
 import FieldErrorMsg from "../FieldErrorMsg/FieldErrorMsg";
 import EmailInput from "../../../core/components/custom-input/EmailInput";
@@ -15,7 +18,11 @@ type FormValues = {
 
 const LoginPage = () => {
     const {
+        setGlobalUser
+    } = React.useContext(UserContext) as UserContextType;
+    const {
         isLoading,
+        user,
         logUserIn
     } = useAuth()
 
@@ -39,6 +46,12 @@ const LoginPage = () => {
 
         logUserIn(formValues.email, formValues.password);
     }
+
+    useEffect(() => {
+        if (user) {
+            setGlobalUser(user);
+        }
+    }, [user])
 
     return (
         <form onSubmit={submitHandler}>

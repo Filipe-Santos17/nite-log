@@ -6,10 +6,10 @@ import LoginPage from "./login-signup/LoginPage";
 import SignupPage from "./login-signup/SignupPage";
 
 const UserAuth = () => {
-    const [isLoginToggled, setIsLoginToggled] = useState(true)
+    const [isLoginToggled, setIsLoginToggled] = useState(true);
 
     return (
-        <main>
+        <section className="user-auth">
             <Header
                 isLoginToggled={isLoginToggled}
                 setIsLoginToggled={setIsLoginToggled}
@@ -22,7 +22,7 @@ const UserAuth = () => {
             ) : (
                 <SignupPage/>
             )}
-        </main>
+        </section>
     );
 };
 

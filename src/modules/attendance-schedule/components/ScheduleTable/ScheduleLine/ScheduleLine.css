@@ -1,0 +1,16 @@
+.schedule-line {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.schedule-line > span {
+    font-size: 18px;
+    align-self: center;
+}
+
+.schedule-line > div {
+    align-self: center;
+}
