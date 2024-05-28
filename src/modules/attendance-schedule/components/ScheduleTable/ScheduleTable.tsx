@@ -2,8 +2,9 @@ import React, {useState} from "react";
 
 import "./ScheduleTable.css";
 
-import Card from "../card/Card";
 import {ISchedule} from "../../../core/types/Schedule";
+
+import Card from "../card/Card";
 import ScheduleLine from "./schedule-line/ScheduleLine";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import IconButton from "../../../core/components/icon-btn/IconButton";
@@ -23,15 +24,27 @@ const ScheduleTable = () => {
 
     const handleAddSchedule = () => {
         if (scheduleList.length < 5) {
+            let nextDayOfWeek = 0;
+            if (scheduleList.length > 0) {
+                const lastDayOfWeek = scheduleList[scheduleList.length - 1].dayOfWeek;
+                nextDayOfWeek = (lastDayOfWeek + 1) % 5;
+            }
+
+            const newSchedule: ISchedule = {
+                dayOfWeek: nextDayOfWeek,
+                fromTime: "08:00",
+                toTime: "12:00"
+            }
+
             setScheduleList(prevScheduleList => [
                 ...prevScheduleList,
-                {
-                    dayOfWeek: 0,
-                    fromTime: "08:00",
-                    toTime: "12:00"
-                }
+                newSchedule
             ])
         }
+    }
+
+    const handleRemoveSchedule = (scheduleToRemove: ISchedule) => {
+        setScheduleList(prevScheduleList => prevScheduleList.filter(s => s !== scheduleToRemove));
     }
 
     // TODO: Implement the logic to save the scheduleList in the database
@@ -44,7 +57,9 @@ const ScheduleTable = () => {
                 return <ScheduleLine
                     key={index}
                     schedule={schedule}
+                    scheduleList={scheduleList}
                     onChange={(updatedSchedule) => handleScheduleChange(index, updatedSchedule)}
+                    onRemove={handleRemoveSchedule}
                 />
             })}
 

@@ -73,8 +73,6 @@ export const useAuth = (): IUseAuthReturn => {
                     .catch((error) => {
                         console.log("Error getting documents: ", error);
                     });
-
-                alert("Login realizado com sucesso!");
             })
             .catch((error) => {
                 alert("Erro ao realizar login: " + error.message);

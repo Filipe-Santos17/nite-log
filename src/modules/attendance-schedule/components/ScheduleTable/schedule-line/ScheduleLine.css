@@ -1,7 +1,7 @@
 .schedule-line {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 24px repeat(3, 1fr);
     color: #fff;
     margin-bottom: 8px;
 }
@@ -13,4 +13,9 @@
 
 .schedule-line > div {
     align-self: center;
+}
+
+.remove-icon {
+    width: 16px;
+    place-self: center;
 }

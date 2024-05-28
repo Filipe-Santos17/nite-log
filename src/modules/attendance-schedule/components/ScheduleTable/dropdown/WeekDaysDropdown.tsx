@@ -5,10 +5,11 @@ import {DayOfWeek, getDayOfWeek} from "../../../../core/types/DayOfWeek";
 
 type WeekDaysDropdownProps = {
     selectedDayOfWeek: DayOfWeek,
-    onChange: (dayOfWeek: DayOfWeek) => void
+    daysInUse: DayOfWeek[]
+    onChange: (dayOfWeek: DayOfWeek) => void,
 }
 
-const WeekDaysDropdown = ({selectedDayOfWeek, onChange}: WeekDaysDropdownProps) => {
+const WeekDaysDropdown = ({selectedDayOfWeek, daysInUse, onChange}: WeekDaysDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
@@ -20,13 +21,15 @@ const WeekDaysDropdown = ({selectedDayOfWeek, onChange}: WeekDaysDropdownProps) 
 
     return (
         <div className="dropdown-container">
-            <div className="dropdown-header" onClick={toggleDropdown}>
+            <div className="dropdown-header header-week-days" onClick={toggleDropdown}>
                 {getDayOfWeek(selectedDayOfWeek) || getDayOfWeek(DayOfWeek.SEGUNDA)}
             </div>
             {isOpen && (
                 <div className="dropdown-list-container">
                     <ul className="dropdown-list">
-                        {Object.values(DayOfWeek).map((dayOfWeek, index) => {
+                        {Object.values(DayOfWeek)
+                            .filter(dayOfWeek => !daysInUse.includes(dayOfWeek as DayOfWeek))
+                            .map((dayOfWeek, index) => {
                             return <li
                                 className="dropdown-item"
                                 onClick={handleDayOfWeekChange.bind(null, dayOfWeek as DayOfWeek)}
