@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useAuth} from "../../../core/hooks/auth/useAuth";
+import {useAuth} from "../../hooks/auth/useAuth";
 
 import {UserContext} from "../../../core/context/userContext";
 import {UserContextType} from "../../../core/types/User";
@@ -44,7 +44,10 @@ const LoginPage = () => {
 
         if (checkValues(formValues, setIsError)) return;
 
-        logUserIn(formValues.email, formValues.password);
+        const queryParams = new URLSearchParams(window.location.search);
+        const timecode = queryParams.get('timecode');
+
+        logUserIn(formValues.email, formValues.password, timecode);
     }
 
     useEffect(() => {

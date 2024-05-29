@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useAuth} from "../../../core/hooks/auth/useAuth";
+import {useAuth} from "../../hooks/auth/useAuth";
 
 import FieldErrorMsg from "../field-error-msg/FieldErrorMsg";
 import TextInput from "../../../core/components/custom-input/TextInput";
@@ -40,10 +40,14 @@ const SignupPage = () => {
 
         if (checkValues(formValues, setIsError)) return;
 
+        const queryParams = new URLSearchParams(window.location.search);
+        const timecode = queryParams.get('timecode');
+
         createUser(
             formValues.username,
             formValues.email,
-            formValues.password
+            formValues.password,
+            timecode
         );
     }
 

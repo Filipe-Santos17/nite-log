@@ -1,5 +1,7 @@
+import {IAttendanceEntry} from "./AttendanceEntry";
+
 export interface IAttendanceList {
-    listDate: Date;
+    listDate: string;
     activeCode: string;
-    attendees: Array<IAttendanceList>;
+    attendees: Array<IAttendanceEntry>;
 }
