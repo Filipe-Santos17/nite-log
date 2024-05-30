@@ -8,3 +8,8 @@
     width: 32px;
     margin-bottom: 16px;
 }
+
+.entry-not-okay {
+    color: #ffffff;
+    font-size: 17px;
+}

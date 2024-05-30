@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useReducer} from "react";
 
 import "./ScheduleTable.css";
 
@@ -8,58 +8,97 @@ import Card from "../card/Card";
 import ScheduleLine from "./schedule-line/ScheduleLine";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import IconButton from "../../../core/components/icon-btn/IconButton";
+import { UserContext } from "../../../core/context/userContext";
+import {UserContextType} from "../../../core/types/User";
+import { useUser } from "../../../core/hooks/user/useUser";
+import { scheduleReducer } from "./schedule-reducer/scheduleReducer";
 
 const addIcon = require("../../assets/icons/add.png");
 
-const ScheduleTable = () => {
-    const [scheduleList, setScheduleList] = useState<ISchedule[]>([])
-
-    const handleScheduleChange = (index: number, schedule: ISchedule) => {
-        setScheduleList((prevScheduleList) => {
-            const newScheduleList = [...prevScheduleList];
-            newScheduleList[index] = schedule;
-            return newScheduleList;
-        })
+const createNewSchedule = (scheduleList: ISchedule[]): ISchedule => {
+    let nextDayOfWeek = 0;
+    if (scheduleList.length > 0) {
+        const lastDayOfWeek = scheduleList[scheduleList.length - 1].dayOfWeek;
+        nextDayOfWeek = (lastDayOfWeek + 1) % 5;
     }
+
+    while (scheduleList.some(s => s.dayOfWeek === nextDayOfWeek)) {
+        nextDayOfWeek = (nextDayOfWeek + 1) % 5;
+    }
+
+    return {
+        dayOfWeek: nextDayOfWeek,
+        fromTime: "08:00",
+        toTime: "12:00"
+    }
+}
+
+const ScheduleTable = () => {
+    const {
+        globalUser,
+        setGlobalUser
+    } = React.useContext(UserContext) as UserContextType;
+    const {
+        updateUserSchedule
+    } = useUser();
+
+    const getScheduleList = useCallback(() => {
+        if (globalUser === null || globalUser.schedule === "not initialized") return [];
+        return globalUser.schedule;
+    }, [globalUser])
+
+    // const [scheduleList, setScheduleList] = useState<ISchedule[]>(getScheduleList);
+    const [scheduleList, dispatch] = useReducer(scheduleReducer, []);
+
+    useEffect(() => {
+        dispatch({type: "REPLACE-ALL", payload: getScheduleList()});
+    }, [getScheduleList]);
+
+    const handleScheduleChange = useCallback((schedule: ISchedule) => {
+        dispatch({type: "UPDATE", payload: schedule});
+    }, []);
 
     const handleAddSchedule = () => {
         if (scheduleList.length < 5) {
-            let nextDayOfWeek = 0;
-            if (scheduleList.length > 0) {
-                const lastDayOfWeek = scheduleList[scheduleList.length - 1].dayOfWeek;
-                nextDayOfWeek = (lastDayOfWeek + 1) % 5;
-            }
-
-            const newSchedule: ISchedule = {
-                dayOfWeek: nextDayOfWeek,
-                fromTime: "08:00",
-                toTime: "12:00"
-            }
-
-            setScheduleList(prevScheduleList => [
-                ...prevScheduleList,
-                newSchedule
-            ])
+            const newSchedule = createNewSchedule(scheduleList);
+            dispatch({type: "ADD", payload: newSchedule});
         }
     }
 
-    const handleRemoveSchedule = (scheduleToRemove: ISchedule) => {
-        setScheduleList(prevScheduleList => prevScheduleList.filter(s => s !== scheduleToRemove));
+    const handleRemoveSchedule = (dayOfWeek: number) => {
+        const scheduleToRemove = (scheduleList as ISchedule[]).find(s => s.dayOfWeek === dayOfWeek);
+        if (scheduleToRemove) {
+            dispatch({type: "REMOVE", payload: scheduleToRemove});
+        }
     }
 
-    // TODO: Implement the logic to save the scheduleList in the database
+    const handleSaveSchedule = useCallback(() => {
+        if (globalUser === null) return;
+        setGlobalUser((prevUser) => {
+            return {
+                ...prevUser,
+                schedule: scheduleList
+            }
+        });
+        // eslint-disable-next-line
+    }, [globalUser, scheduleList]);
+
+    useEffect(() => {
+        if (globalUser === null) return;
+        updateUserSchedule(globalUser);
+    }, [globalUser, updateUserSchedule]);
 
     return (
         <Card>
             <span className="card-title">Como serão seus horários?</span>
 
-            {scheduleList.map((schedule, index) => {
+            {(scheduleList as ISchedule[]).map((schedule) => {
                 return <ScheduleLine
-                    key={index}
+                    key={schedule.dayOfWeek}
                     schedule={schedule}
                     scheduleList={scheduleList}
-                    onChange={(updatedSchedule) => handleScheduleChange(index, updatedSchedule)}
-                    onRemove={handleRemoveSchedule}
+                    onChange={(updatedSchedule) => handleScheduleChange(updatedSchedule)}
+                    onRemove={() => handleRemoveSchedule(schedule.dayOfWeek)}
                 />
             })}
 
@@ -72,7 +111,10 @@ const ScheduleTable = () => {
                 onClick={handleAddSchedule}
                 className="add-schedule-btn"
             />
-            <FilledButton title="Salvar"/>
+            <FilledButton
+                title="Salvar"
+                onClick={handleSaveSchedule}
+            />
         </Card>
     );
 };

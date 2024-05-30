@@ -54,6 +54,7 @@ const LoginPage = () => {
         if (user) {
             setGlobalUser(user);
         }
+        // eslint-disable-next-line
     }, [user])
 
     return (

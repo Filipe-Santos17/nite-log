@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuth} from "../../hooks/auth/useAuth";
 
 import FieldErrorMsg from "../field-error-msg/FieldErrorMsg";
@@ -8,6 +8,8 @@ import PasswordInput from "../../../core/components/custom-input/PasswordInput";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import Loading from "../../../core/components/loading/Loading";
 import {checkValues} from "../../../core/utils/utils";
+import {UserContextType} from "../../../core/types/User";
+import {UserContext} from "../../../core/context/userContext";
 
 type FormValues = {
     username: string;
@@ -17,7 +19,11 @@ type FormValues = {
 
 const SignupPage = () => {
     const {
+        setGlobalUser
+    } = React.useContext(UserContext) as UserContextType;
+    const {
         isLoading,
+        user,
         createUser
     } = useAuth();
 
@@ -50,6 +56,13 @@ const SignupPage = () => {
             timecode
         );
     }
+
+    useEffect(() => {
+        if (user) {
+            setGlobalUser(user);
+        }
+        // eslint-disable-next-line
+    }, [user]);
 
     return (
         <form onSubmit={submitHandler}>
