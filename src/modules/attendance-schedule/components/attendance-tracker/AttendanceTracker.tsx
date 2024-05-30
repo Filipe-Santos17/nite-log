@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import "./AttendanceTracker.css";
 
@@ -15,16 +15,70 @@ const AttendanceTracker = () => {
     const {
         globalUser
     } = React.useContext(UserContext) as UserContextType;
-
     const {
-        removeUserFromAttendanceList
+        removeUserFromAttendanceList,
+        checkTodayActiveCode
     } = useAttendance();
+
+    const [isTimecodeDefined, setIsTimecodeDefined] = useState(true);
+    const [isActiveCodeCorrect, setIsActiveCodeCorrect] = useState(true);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const timecode = queryParams.get("timecode");
+
+        if (timecode === null) {
+            setIsTimecodeDefined(false);
+            return;
+        }
+
+        checkTodayActiveCode(timecode)
+            .then((isActiveCodeCorrect) => {
+                setIsActiveCodeCorrect(isActiveCodeCorrect);
+            });
+
+    }, [checkTodayActiveCode]);
 
     const handleEndAttendance = () => {
         if (globalUser === null) return;
         if (window.confirm("Quer assinar sua saída da lista?")) {
             removeUserFromAttendanceList(globalUser.userId);
         }
+    }
+
+    if (!isTimecodeDefined) {
+        return (
+            <Card>
+                <span className="timecode-wrong-title">Opa!</span>
+                <span className="timecode-wrong-text">
+                    <p>
+                       Parece que você não está no Nite no momento.
+                    </p>
+                    <p>
+                       Caso esteja, escaneie o QR Code na entrada e tente novamente.
+                    </p>
+                    <p>
+                       De qualquer forma, aproveite para nos contar mais sobre seus horários!
+                    </p>
+                </span>
+            </Card>
+        );
+    }
+
+    if (!isActiveCodeCorrect) {
+        return (
+            <Card>
+                <span className="timecode-wrong-title">Código inválido</span>
+                <span className="timecode-wrong-text">
+                    <p>
+                        O código que você escaneou não é válido para o dia de hoje.
+                    </p>
+                    <p>
+                        Seu código pode ter expirado, por favor leia o QR Code novamente.
+                    </p>
+                </span>
+            </Card>
+        );
     }
 
     return (

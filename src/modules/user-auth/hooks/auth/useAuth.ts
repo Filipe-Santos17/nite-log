@@ -14,7 +14,7 @@ type useAuthReturn = {
 
 export const useAuth = (): useAuthReturn => {
     const {
-        addUserToAttendanceList
+        addUserToAttendanceList,
     } = useAttendance();
     const {
         addUserToDatabase,
@@ -32,7 +32,6 @@ export const useAuth = (): useAuthReturn => {
 
         addUserToDatabase(firebaseUser, displayName, email)
             .then((user) => {
-                console.log("I got in!")
                 setUser(user);
                 addUserToAttendanceList(timecode, user.userId);
             })

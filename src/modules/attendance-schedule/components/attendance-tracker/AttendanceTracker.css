@@ -9,7 +9,12 @@
     margin-bottom: 16px;
 }
 
-.entry-not-okay {
+.timecode-wrong-title {
     color: #ffffff;
-    font-size: 17px;
+    font-size: 22px;
+}
+
+.timecode-wrong-text {
+    color: #ffffff;
+    font-size: 16px;
 }

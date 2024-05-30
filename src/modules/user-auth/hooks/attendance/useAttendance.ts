@@ -6,7 +6,8 @@ import {IAttendanceEntry} from "../../../core/types/AttendanceEntry";
 
 type useAttendanceReturn = {
     addUserToAttendanceList(timecode: string | null, userId: string): void
-    removeUserFromAttendanceList(userId: string): void
+    removeUserFromAttendanceList(userId: string): void,
+    checkTodayActiveCode(timecode: string): Promise<boolean>
 }
 
 export const useAttendance = (): useAttendanceReturn => {
@@ -66,8 +67,21 @@ export const useAttendance = (): useAttendanceReturn => {
         await updateDoc(todayList, {"attendees": listData.attendees});
     }
 
+    const checkTodayActiveCode = async (timecode: string): Promise<boolean> => {
+        const today = getToday()
+        const todayList = doc(attendanceListsRef, today);
+
+        const docSnap = await getDoc(todayList);
+        if (!docSnap.exists()) return false;
+
+        const listData = docSnap.data() as IAttendanceList;
+
+        return listData.activeCode.toString() === timecode;
+    }
+
     return {
         addUserToAttendanceList,
-        removeUserFromAttendanceList
+        removeUserFromAttendanceList,
+        checkTodayActiveCode
     };
 }
