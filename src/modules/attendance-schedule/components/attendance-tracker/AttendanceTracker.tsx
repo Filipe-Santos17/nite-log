@@ -20,19 +20,19 @@ const AttendanceTracker = () => {
         checkTodayActiveCode
     } = useAttendance();
 
-    const [isTimecodeDefined, setIsTimecodeDefined] = useState(true);
+    const [isActiveCodeDefined, setIsActiveCodeDefined] = useState(true);
     const [isActiveCodeCorrect, setIsActiveCodeCorrect] = useState(true);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
-        const timecode = queryParams.get("timecode");
+        const activeCode = queryParams.get("activeCode");
 
-        if (timecode === null) {
-            setIsTimecodeDefined(false);
+        if (activeCode === null) {
+            setIsActiveCodeDefined(false);
             return;
         }
 
-        checkTodayActiveCode(timecode)
+        checkTodayActiveCode(activeCode)
             .then((isActiveCodeCorrect) => {
                 setIsActiveCodeCorrect(isActiveCodeCorrect);
             });
@@ -46,11 +46,11 @@ const AttendanceTracker = () => {
         }
     }
 
-    if (!isTimecodeDefined) {
+    if (!isActiveCodeDefined) {
         return (
             <Card>
-                <span className="timecode-wrong-title">Opa!</span>
-                <span className="timecode-wrong-text">
+                <span className="active-code-wrong-title">Opa!</span>
+                <span className="active-code-wrong-text">
                     <p>
                        Parece que você não está no Nite no momento.
                     </p>
@@ -68,8 +68,8 @@ const AttendanceTracker = () => {
     if (!isActiveCodeCorrect) {
         return (
             <Card>
-                <span className="timecode-wrong-title">Código inválido</span>
-                <span className="timecode-wrong-text">
+                <span className="active-code-wrong-title">Código inválido</span>
+                <span className="active-code-wrong-text">
                     <p>
                         O código que você escaneou não é válido para o dia de hoje.
                     </p>

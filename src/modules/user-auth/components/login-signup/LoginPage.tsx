@@ -45,9 +45,9 @@ const LoginPage = () => {
         if (checkValues(formValues, setIsError)) return;
 
         const queryParams = new URLSearchParams(window.location.search);
-        const timecode = queryParams.get('timecode');
+        const activeCode = queryParams.get('activeCode');
 
-        logUserIn(formValues.email, formValues.password, timecode);
+        logUserIn(formValues.email, formValues.password, activeCode);
     }
 
     useEffect(() => {

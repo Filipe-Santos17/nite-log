@@ -47,13 +47,13 @@ const SignupPage = () => {
         if (checkValues(formValues, setIsError)) return;
 
         const queryParams = new URLSearchParams(window.location.search);
-        const timecode = queryParams.get('timecode');
+        const activeCode = queryParams.get('activeCode');
 
         createUser(
             formValues.username,
             formValues.email,
             formValues.password,
-            timecode
+            activeCode
         );
     }
 

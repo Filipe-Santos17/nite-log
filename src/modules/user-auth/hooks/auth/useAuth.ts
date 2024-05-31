@@ -8,8 +8,8 @@ import {useUser} from "../../../core/hooks/user/useUser";
 type useAuthReturn = {
     isLoading: boolean,
     user?: IUser,
-    createUser(displayName: string, email: string, password: string, timecode: string | null): void,
-    logUserIn(email: string, password: string, timecode: string | null): void
+    createUser(displayName: string, email: string, password: string, activeCode: string | null): void,
+    logUserIn(email: string, password: string, activeCode: string | null): void
 }
 
 export const useAuth = (): useAuthReturn => {
@@ -24,7 +24,7 @@ export const useAuth = (): useAuthReturn => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [user, setUser] = useState<IUser>()
 
-    const createUser = async (displayName: string, email: string, password: string, timecode: string | null) => {
+    const createUser = async (displayName: string, email: string, password: string, activeCode: string | null) => {
         setIsLoading(true);
 
         const userCredential =  await createUserWithEmailAndPassword(auth, email, password);
@@ -33,7 +33,7 @@ export const useAuth = (): useAuthReturn => {
         addUserToDatabase(firebaseUser, displayName, email)
             .then((user) => {
                 setUser(user);
-                addUserToAttendanceList(timecode, user.userId);
+                addUserToAttendanceList(activeCode, user.userId);
             })
             .catch((error) => {
                 alert("Erro ao criar conta: " + error.message);
@@ -43,7 +43,7 @@ export const useAuth = (): useAuthReturn => {
             })
     }
 
-    const logUserIn = async (email: string, password: string, timecode: string | null) => {
+    const logUserIn = async (email: string, password: string, activeCode: string | null) => {
         setIsLoading(true);
 
         await signInWithEmailAndPassword(auth, email, password);
@@ -51,7 +51,7 @@ export const useAuth = (): useAuthReturn => {
         getUserFromDatabase(email)
             .then((user) => {
                 setUser(user);
-                addUserToAttendanceList(timecode, user.userId);
+                addUserToAttendanceList(activeCode, user.userId);
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);

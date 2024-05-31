@@ -5,15 +5,15 @@ import {IAttendanceList} from "../../../core/types/AttendanceList";
 import {IAttendanceEntry} from "../../../core/types/AttendanceEntry";
 
 type useAttendanceReturn = {
-    addUserToAttendanceList(timecode: string | null, userId: string): void
+    addUserToAttendanceList(activeCode: string | null, userId: string): void
     removeUserFromAttendanceList(userId: string): void,
-    checkTodayActiveCode(timecode: string): Promise<boolean>
+    checkTodayActiveCode(activeCode: string): Promise<boolean>
 }
 
 export const useAttendance = (): useAttendanceReturn => {
     const attendanceListsRef = collection(db, 'attendance-lists');
 
-    const addUserToAttendanceList = async (timecode: string | null, userId: string) => {
+    const addUserToAttendanceList = async (activeCode: string | null, userId: string) => {
         // Get today's attendance list
         const today = getToday()
         const todayList = doc(attendanceListsRef, today);
@@ -25,7 +25,7 @@ export const useAttendance = (): useAttendanceReturn => {
         const listData = docSnap.data() as IAttendanceList;
 
         // If active code does not match, return
-        if (listData.activeCode.toString() !== timecode) return;
+        if (listData.activeCode.toString() !== activeCode) return;
 
         // Create new attendance entry
         const newAttendanceEntry: IAttendanceEntry = {
@@ -67,7 +67,7 @@ export const useAttendance = (): useAttendanceReturn => {
         await updateDoc(todayList, {"attendees": listData.attendees});
     }
 
-    const checkTodayActiveCode = async (timecode: string): Promise<boolean> => {
+    const checkTodayActiveCode = async (activeCode: string): Promise<boolean> => {
         const today = getToday()
         const todayList = doc(attendanceListsRef, today);
 
@@ -76,7 +76,7 @@ export const useAttendance = (): useAttendanceReturn => {
 
         const listData = docSnap.data() as IAttendanceList;
 
-        return listData.activeCode.toString() === timecode;
+        return listData.activeCode.toString() === activeCode;
     }
 
     return {
