@@ -21,7 +21,7 @@ const WeekDaysDropdown = ({selectedDayOfWeek, daysInUse, onChange}: WeekDaysDrop
 
     return (
         <div className="dropdown-container">
-            <div className="dropdown-header header-week-days" onClick={toggleDropdown}>
+            <div className="dropdown-header" onClick={toggleDropdown}>
                 {getDayOfWeek(selectedDayOfWeek) || getDayOfWeek(DayOfWeek.SEGUNDA)}
             </div>
             {isOpen && (

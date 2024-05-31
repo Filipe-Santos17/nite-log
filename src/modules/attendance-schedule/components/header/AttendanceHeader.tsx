@@ -5,7 +5,7 @@ import "./AttendanceHeader.css";
 const defaultUserIcon = require("../../assets/icons/default-user.png");
 
 type AttendanceHeaderProps = {
-    onClick?: MouseEventHandler
+    onClick: MouseEventHandler
 }
 
 const AttendanceHeader = ({onClick}: AttendanceHeaderProps) => {

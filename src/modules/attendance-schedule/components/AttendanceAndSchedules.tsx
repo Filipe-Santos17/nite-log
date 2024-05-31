@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import "./AttendanceAndSchedules.css";
 
@@ -7,9 +7,15 @@ import AttendanceTracker from "./attendance-tracker/AttendanceTracker";
 import ScheduleTable from "./ScheduleTable/ScheduleTable";
 
 const AttendanceAndSchedules = () => {
+    const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
+
+    const handleUserIconClick = () => {
+        setIsSideDrawerOpen(!isSideDrawerOpen);
+    }
+
     return (
         <section className="attendance-schedules">
-            <AttendanceHeader />
+            <AttendanceHeader onClick={handleUserIconClick}/>
 
             <AttendanceTracker/>
 

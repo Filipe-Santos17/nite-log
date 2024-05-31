@@ -1,7 +1,7 @@
 .dropdown-container {
     width: 90%;
     height: 24px;
-    border: 1px solid #fff;
+    border: 1px solid var(--text-color);
     border-radius: 4px;
     place-self: center;
 }
@@ -12,20 +12,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.header-week-days {
-    padding-left: 5px;
-    justify-content: start;
+    font-size: 13px;
 }
 
 .dropdown-list {
-    width: 70px;
+    width: 60px;
     max-height: 100px;
     overflow-y: scroll;
     margin: 0.5rem auto;
     padding: 0.25rem;
-    border: 1px solid #fff;
+    border: 1px solid var(--text-color);
     background: rgba(0, 0, 0, 0.9);
     border-radius: 4px;
     position: absolute;
@@ -36,6 +32,7 @@
     list-style: none;
     text-align: center;
     margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     border-radius: 4px;
+    font-size: 12px;
 }

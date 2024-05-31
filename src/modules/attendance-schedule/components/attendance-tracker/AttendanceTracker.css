@@ -1,5 +1,5 @@
 .entry-okay {
-    color: #ffffff;
+    color: var(--text-color);
     font-size: 22px;
     margin-bottom: 16px;
 }
@@ -10,11 +10,11 @@
 }
 
 .timecode-wrong-title {
-    color: #ffffff;
+    color: var(--text-color);
     font-size: 22px;
 }
 
 .timecode-wrong-text {
-    color: #ffffff;
+    color: var(--text-color);
     font-size: 16px;
 }

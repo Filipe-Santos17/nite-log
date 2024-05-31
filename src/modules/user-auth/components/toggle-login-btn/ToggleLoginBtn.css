@@ -7,14 +7,15 @@
 }
 
 .toggle-btn {
-    background-color: #0c091c;
-    color: #fff;
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: 15px;
     cursor: pointer;
     border: none;
 }
 
 .active {
-    text-decoration: #f5f5f5 underline;
+    text-decoration: var(--text-color) underline;
     font-weight: bold;
 }
 

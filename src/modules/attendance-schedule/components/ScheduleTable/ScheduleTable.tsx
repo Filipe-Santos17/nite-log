@@ -14,6 +14,7 @@ import { useUser } from "../../../core/hooks/user/useUser";
 import { scheduleReducer } from "./schedule-reducer/scheduleReducer";
 import {DayOfWeek} from "../../../core/types/DayOfWeek";
 import Loading from "../../../core/components/loading/Loading";
+import ScheduleLineHead from "./schedule-line/ScheduleLineHead";
 
 const addIcon = require("../../assets/icons/add.png");
 
@@ -96,6 +97,7 @@ const ScheduleTable = () => {
         <Card>
             <span className="card-title">Como serão seus horários?</span>
 
+            <ScheduleLineHead />
             {(scheduleList as ISchedule[]).map((schedule, index) => {
                 return <ScheduleLine
                     key={index}
