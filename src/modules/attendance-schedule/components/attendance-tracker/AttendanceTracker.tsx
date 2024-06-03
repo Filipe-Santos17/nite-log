@@ -8,6 +8,7 @@ import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import {useAttendance} from "../../../user-auth/hooks/attendance/useAttendance";
 import {UserContextType} from "../../../core/types/User";
 import { UserContext } from "../../../core/context/userContext";
+import EndAttendanceModal from "../end-attendance-modal/EndAttendanceModal";
 
 const greenCheck = require("../../assets/icons/green-check.png");
 
@@ -16,13 +17,13 @@ const AttendanceTracker = () => {
         globalUser,
     } = React.useContext(UserContext) as UserContextType;
     const {
-        removeUserFromAttendanceList,
         checkTodayActiveCode
     } = useAttendance();
 
     const [activeCode, setActiveCode] = useState<string | null>("")
     const [isActiveCodeDefined, setIsActiveCodeDefined] = useState(true);
     const [isActiveCodeCorrect, setIsActiveCodeCorrect] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -42,9 +43,7 @@ const AttendanceTracker = () => {
 
     const handleEndAttendance = () => {
         if (globalUser === null) return;
-        if (window.confirm("Quer assinar sua saída da lista?")) {
-            removeUserFromAttendanceList(globalUser.userId);
-        }
+        setIsModalOpen(true);
     }
 
     if (!isActiveCodeDefined) {
@@ -90,6 +89,11 @@ const AttendanceTracker = () => {
                 title="Encerrar"
                 onClick={handleEndAttendance}
             />
+            {isModalOpen &&
+                <EndAttendanceModal
+                    setIsModalOpen={setIsModalOpen}
+                />
+            }
         </Card>
     );
 };

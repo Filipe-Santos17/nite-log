@@ -6,7 +6,7 @@ import {IAttendanceEntry} from "../../../core/types/AttendanceEntry";
 
 type useAttendanceReturn = {
     addUserToAttendanceList(activeCode: string | null, userId: string): void
-    removeUserFromAttendanceList(userId: string): void,
+    removeUserFromAttendanceList(userId: string, workDone: string): Promise<void>,
     checkTodayActiveCode(activeCode: string): Promise<boolean>
 }
 
@@ -31,7 +31,8 @@ export const useAttendance = (): useAttendanceReturn => {
         const newAttendanceEntry: IAttendanceEntry = {
             userId: userId,
             clockIn: new Date(),
-            clockOut: null
+            clockOut: null,
+            workDone: ""
         }
 
         // If user is already in attendance list, return
@@ -43,7 +44,7 @@ export const useAttendance = (): useAttendanceReturn => {
         await updateDoc(todayList, {"attendees": listData.attendees});
     }
 
-    const removeUserFromAttendanceList = async (userId: string) => {
+    const removeUserFromAttendanceList = async (userId: string, workDone: string): Promise<void> => {
         // Get today's attendance list
         const today = getToday()
         const todayList = doc(attendanceListsRef, today);
@@ -61,10 +62,12 @@ export const useAttendance = (): useAttendanceReturn => {
         listData.attendees.forEach((attendee) => {
             if (attendee.userId === userId) {
                 attendee.clockOut = new Date();
+                attendee.workDone = workDone;
             }
         })
 
         await updateDoc(todayList, {"attendees": listData.attendees});
+        return;
     }
 
     const checkTodayActiveCode = async (activeCode: string): Promise<boolean> => {

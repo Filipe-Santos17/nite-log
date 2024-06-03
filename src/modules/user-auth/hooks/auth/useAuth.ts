@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
 import {auth} from "../../../core/service/firebase";
 import {IUser} from "../../../core/types/User";
 import {useAttendance} from "../attendance/useAttendance";
@@ -9,7 +9,8 @@ type useAuthReturn = {
     isLoading: boolean,
     user?: IUser,
     createUser(displayName: string, email: string, password: string, activeCode: string | null): void,
-    logUserIn(email: string, password: string, activeCode: string | null): void
+    logUserIn(email: string, password: string, activeCode: string | null): void,
+    logUserOut(): Promise<void>
 }
 
 export const useAuth = (): useAuthReturn => {
@@ -61,10 +62,16 @@ export const useAuth = (): useAuthReturn => {
             });
     }
 
+    const logUserOut = async (): Promise<void> => {
+        await signOut(auth);
+        return
+    }
+
     return {
         isLoading,
         user,
         createUser,
-        logUserIn
+        logUserIn,
+        logUserOut
     };
 }
