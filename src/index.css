@@ -24,12 +24,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-main);
   background: linear-gradient(180deg, rgba(27,20,62,1) 0%, rgba(20,15,46,1) 100%);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 html, body, #root {
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 form {

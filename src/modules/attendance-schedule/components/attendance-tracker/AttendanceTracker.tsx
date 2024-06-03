@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 import "./AttendanceTracker.css";
 
-import Card from "../card/Card";
+import Card from "../../../core/components/card/Card";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 
 import {useAttendance} from "../../../user-auth/hooks/attendance/useAttendance";
@@ -13,19 +13,20 @@ const greenCheck = require("../../assets/icons/green-check.png");
 
 const AttendanceTracker = () => {
     const {
-        globalUser
+        globalUser,
     } = React.useContext(UserContext) as UserContextType;
     const {
         removeUserFromAttendanceList,
         checkTodayActiveCode
     } = useAttendance();
 
+    const [activeCode, setActiveCode] = useState<string | null>("")
     const [isActiveCodeDefined, setIsActiveCodeDefined] = useState(true);
     const [isActiveCodeCorrect, setIsActiveCodeCorrect] = useState(true);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
-        const activeCode = queryParams.get("activeCode");
+        setActiveCode(queryParams.get('activeCode'));
 
         if (activeCode === null) {
             setIsActiveCodeDefined(false);
@@ -37,7 +38,7 @@ const AttendanceTracker = () => {
                 setIsActiveCodeCorrect(isActiveCodeCorrect);
             });
 
-    }, [checkTodayActiveCode]);
+    }, [checkTodayActiveCode, activeCode]);
 
     const handleEndAttendance = () => {
         if (globalUser === null) return;

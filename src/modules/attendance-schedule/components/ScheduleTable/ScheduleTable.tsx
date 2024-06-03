@@ -4,7 +4,7 @@ import "./ScheduleTable.css";
 
 import {ISchedule} from "../../../core/types/Schedule";
 
-import Card from "../card/Card";
+import Card from "../../../core/components/card/Card";
 import ScheduleLine from "./schedule-line/ScheduleLine";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import IconButton from "../../../core/components/icon-btn/IconButton";

@@ -11,4 +11,6 @@ export interface IUser {
 export type UserContextType = {
     globalUser: IUser | null;
     setGlobalUser: React.Dispatch<React.SetStateAction<IUser>>;
+    path: string;
+    setPath: React.Dispatch<React.SetStateAction<string>>;
 }

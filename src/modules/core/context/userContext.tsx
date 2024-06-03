@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import {IUser, UserContextType} from "../types/User";
 
 export const UserContext = React.createContext<UserContextType | null>(null);
 
 const UserProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
+    const [path, setPath] = useState("")
     const [globalUser, setGlobalUser] = React.useState<IUser>({
         displayName: "",
         email: "",
@@ -12,7 +13,7 @@ const UserProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     });
 
     return (
-        <UserContext.Provider value={{globalUser, setGlobalUser}}>
+        <UserContext.Provider value={{globalUser, setGlobalUser, path, setPath}}>
             {children}
         </UserContext.Provider>
     );

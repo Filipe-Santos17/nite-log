@@ -1,21 +1,34 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 
 import "./AttendanceAndSchedules.css";
 
-import AttendanceHeader from "./header/AttendanceHeader";
+import HeaderWithIcon from "../../core/components/header/HeaderWithIcon";
 import AttendanceTracker from "./attendance-tracker/AttendanceTracker";
 import ScheduleTable from "./ScheduleTable/ScheduleTable";
+import { useLocation } from "wouter";
+import {UserContextType} from "../../core/types/User";
+import {UserContext} from "../../core/context/userContext";
 
-const AttendanceAndSchedules = () => {
-    const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
+type AttendanceAndSchedulesProps = {
+    navigateToUserPage: () => void,
+}
 
-    const handleUserIconClick = () => {
-        setIsSideDrawerOpen(!isSideDrawerOpen);
-    }
+const AttendanceAndSchedules = ({navigateToUserPage}: AttendanceAndSchedulesProps) => {
+    const {
+        path
+    } = React.useContext(UserContext) as UserContextType
+    const [location, navigate] = useLocation();
+
+
+    useEffect(() => {
+        if (location !== `/home/${path}`) {
+            navigate(`/home/${path}`);
+        }
+    }, [path]);
 
     return (
         <section className="attendance-schedules">
-            <AttendanceHeader onClick={handleUserIconClick}/>
+            <HeaderWithIcon onClickIcon={navigateToUserPage}/>
 
             <AttendanceTracker/>
 
