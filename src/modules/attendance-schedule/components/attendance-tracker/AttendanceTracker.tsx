@@ -17,12 +17,14 @@ const AttendanceTracker = () => {
         globalUser,
     } = React.useContext(UserContext) as UserContextType;
     const {
-        checkTodayActiveCode
+        checkTodayActiveCode,
+        checkIsUserOnAttendance
     } = useAttendance();
 
     const [activeCode, setActiveCode] = useState<string | null>("")
     const [isActiveCodeDefined, setIsActiveCodeDefined] = useState(true);
     const [isActiveCodeCorrect, setIsActiveCodeCorrect] = useState(true);
+    const [isUserOnAttendance, setIsUserOnAttendance] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -33,20 +35,25 @@ const AttendanceTracker = () => {
             setIsActiveCodeDefined(false);
             return;
         }
+        
+        checkIsUserOnAttendance(globalUser?.userId)
+            .then((res) => {
+                setIsUserOnAttendance(res);    
+            })
 
         checkTodayActiveCode(activeCode)
             .then((isActiveCodeCorrect) => {
                 setIsActiveCodeCorrect(isActiveCodeCorrect);
             });
 
-    }, [checkTodayActiveCode, activeCode]);
+    }, [checkTodayActiveCode, activeCode, checkIsUserOnAttendance, globalUser?.userId]);
 
     const handleEndAttendance = () => {
         if (globalUser === null) return;
         setIsModalOpen(true);
     }
 
-    if (!isActiveCodeDefined) {
+    if (!isActiveCodeDefined && !isUserOnAttendance) {
         return (
             <Card>
                 <span className="active-code-wrong-title">Opa!</span>
@@ -65,7 +72,7 @@ const AttendanceTracker = () => {
         );
     }
 
-    if (!isActiveCodeCorrect) {
+    if (!isActiveCodeCorrect && !isUserOnAttendance) {
         return (
             <Card>
                 <span className="active-code-wrong-title">Código inválido</span>

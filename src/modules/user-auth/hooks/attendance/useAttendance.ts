@@ -7,16 +7,21 @@ import {IAttendanceEntry} from "../../../core/types/AttendanceEntry";
 type useAttendanceReturn = {
     addUserToAttendanceList(activeCode: string | null, userId: string): void
     removeUserFromAttendanceList(userId: string, workDone: string): Promise<void>,
+    checkIsUserOnAttendance(userId: string | undefined): Promise<boolean>,
     checkTodayActiveCode(activeCode: string): Promise<boolean>
 }
 
 export const useAttendance = (): useAttendanceReturn => {
     const attendanceListsRef = collection(db, 'attendance-lists');
 
+    const getTodayListRef = () => {
+        const today = getToday()
+        return doc(attendanceListsRef, today);
+    }
+
     const addUserToAttendanceList = async (activeCode: string | null, userId: string) => {
         // Get today's attendance list
-        const today = getToday()
-        const todayList = doc(attendanceListsRef, today);
+        const todayList = getTodayListRef();
 
         // If document does not exist, return
         const docSnap = await getDoc(todayList);
@@ -46,8 +51,7 @@ export const useAttendance = (): useAttendanceReturn => {
 
     const removeUserFromAttendanceList = async (userId: string, workDone: string): Promise<void> => {
         // Get today's attendance list
-        const today = getToday()
-        const todayList = doc(attendanceListsRef, today);
+        const todayList = getTodayListRef();
 
         // If document does not exist, return
         const docSnap = await getDoc(todayList);
@@ -70,9 +74,21 @@ export const useAttendance = (): useAttendanceReturn => {
         return;
     }
 
+    const checkIsUserOnAttendance = async (userId: string | undefined): Promise<boolean> => {
+        const todayList = getTodayListRef();
+
+        const docSnap = await getDoc(todayList);
+        if (!docSnap.exists()) return false;
+
+        if (userId === undefined) return false;
+
+        const listData = docSnap.data() as IAttendanceList;
+
+        return listData.attendees.some(attendee => attendee.userId === userId);
+    }
+
     const checkTodayActiveCode = async (activeCode: string): Promise<boolean> => {
-        const today = getToday()
-        const todayList = doc(attendanceListsRef, today);
+        const todayList = getTodayListRef();
 
         const docSnap = await getDoc(todayList);
         if (!docSnap.exists()) return false;
@@ -85,6 +101,7 @@ export const useAttendance = (): useAttendanceReturn => {
     return {
         addUserToAttendanceList,
         removeUserFromAttendanceList,
+        checkIsUserOnAttendance,
         checkTodayActiveCode
     };
 }
