@@ -12,7 +12,6 @@ import UserPage from "../../user-page/components/UserPage";
 const MainPage = () => {
     const {
         globalUser,
-        path,
         setPath
     } = React.useContext(UserContext) as UserContextType
 
@@ -44,7 +43,7 @@ const MainPage = () => {
             </Route>
             <Route path="/user-page">
                 <UserPage
-                    navigateToAttendanceSchedule={() => navigate(`/attendance-schedule`)}
+                    navigateToAttendanceSchedule={() => navigate(`/home`)}
                 />
             </Route>
         </main>
