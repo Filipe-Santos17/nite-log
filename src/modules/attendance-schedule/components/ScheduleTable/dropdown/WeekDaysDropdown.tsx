@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 
 import "./DropdownStyles.css";
 import {DayOfWeek, getDayOfWeek} from "../../../../core/types/DayOfWeek";
+import useClickOutside from "../../../hooks/use-click-outside/useClickOutside";
 
 type WeekDaysDropdownProps = {
     selectedDayOfWeek: DayOfWeek,
@@ -11,6 +12,7 @@ type WeekDaysDropdownProps = {
 
 const WeekDaysDropdown = ({selectedDayOfWeek, daysInUse, onChange}: WeekDaysDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -19,8 +21,10 @@ const WeekDaysDropdown = ({selectedDayOfWeek, daysInUse, onChange}: WeekDaysDrop
         onChange(dayOfWeek);
     }
 
+    useClickOutside(dropdownRef, () => setIsOpen(false));
+
     return (
-        <div className="dropdown-container">
+        <div className="dropdown-container" ref={dropdownRef}>
             <div className="dropdown-header" onClick={toggleDropdown}>
                 {getDayOfWeek(selectedDayOfWeek) || getDayOfWeek(DayOfWeek.SEGUNDA)}
             </div>

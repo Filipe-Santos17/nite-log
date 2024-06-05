@@ -14,14 +14,12 @@ type ScheduleLineProps = {
     schedule: ISchedule,
     scheduleList: ISchedule[],
     onChange: (schedule: ISchedule, dayOfWeek: DayOfWeek) => void,
-    onRemove: (schedule: ISchedule) => void
+    onRemove: () => void
 }
 
 const ScheduleLine = ({schedule, scheduleList, onChange, onRemove}: ScheduleLineProps) => {
     const handleRemove = () => {
-        if (window.confirm("Tem certeza que deseja remover este horário?")) {
-            onRemove(schedule);
-        }
+        onRemove();
     }
 
     return (

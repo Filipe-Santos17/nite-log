@@ -10,6 +10,7 @@ import Loading from "../../../core/components/loading/Loading";
 import {checkValues} from "../../../core/utils/utils";
 import {UserContextType} from "../../../core/types/User";
 import {UserContext} from "../../../core/context/userContext";
+import ErrorModal from "../error-modal/ErrorModal";
 
 type FormValues = {
     username: string;
@@ -24,10 +25,13 @@ const SignupPage = () => {
     const {
         isLoading,
         user,
+        error,
         createUser
     } = useAuth();
 
     const [isError, setIsError] = useState(false);
+    const [signupError, setSignupError] = useState<string | undefined>("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<FormValues>({
         username: '',
         email: '',
@@ -64,6 +68,13 @@ const SignupPage = () => {
         // eslint-disable-next-line
     }, [user]);
 
+    useEffect(() => {
+        if (error !== "" || error !== undefined) {
+            setSignupError(error);
+            setIsModalOpen(true);
+        }
+    }, [error]);
+
     return (
         <form onSubmit={submitHandler}>
             {isError &&
@@ -90,6 +101,12 @@ const SignupPage = () => {
             />
 
             {isLoading && <Loading />}
+            {isModalOpen &&
+                <ErrorModal
+                    setIsModalOpen={setIsModalOpen}
+                    error={signupError}
+                />
+            }
         </form>
     );
 };

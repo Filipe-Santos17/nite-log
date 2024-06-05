@@ -15,6 +15,7 @@ import { scheduleReducer } from "./schedule-reducer/scheduleReducer";
 import {DayOfWeek} from "../../../core/types/DayOfWeek";
 import Loading from "../../../core/components/loading/Loading";
 import ScheduleLineHead from "./schedule-line/ScheduleLineHead";
+import RemoveScheduleModal from "./remove-schedule-modal/RemoveScheduleModal";
 
 const addIcon = require("../../assets/icons/add.png");
 
@@ -38,6 +39,8 @@ const createNewSchedule = (scheduleList: ISchedule[]): ISchedule => {
 
 const ScheduleTable = () => {
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dayToRemove, setDayToRemove] = useState<number | undefined>();
 
     const {
         globalUser,
@@ -70,6 +73,11 @@ const ScheduleTable = () => {
     }
 
     const handleRemoveSchedule = (dayOfWeek: number) => {
+        setDayToRemove(dayOfWeek);
+        setIsModalOpen(true)
+    }
+
+    const removeSchedule = (dayOfWeek: number) => {
         const scheduleToRemove = (scheduleList as ISchedule[]).find(s => s.dayOfWeek === dayOfWeek);
         if (scheduleToRemove) {
             dispatch({type: "REMOVE", payload: scheduleToRemove});
@@ -123,6 +131,13 @@ const ScheduleTable = () => {
             />
 
             {isUpdating && <Loading />}
+            {isModalOpen &&
+                <RemoveScheduleModal
+                    setIsModalOpen={setIsModalOpen}
+                    dayOfWeek={dayToRemove}
+                    removeSchedule={removeSchedule}
+                />
+            }
         </Card>
     );
 };

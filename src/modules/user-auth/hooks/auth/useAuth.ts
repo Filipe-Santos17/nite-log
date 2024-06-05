@@ -8,6 +8,7 @@ import {useUser} from "../../../core/hooks/user/useUser";
 type useAuthReturn = {
     isLoading: boolean,
     user?: IUser,
+    error?: string,
     createUser(displayName: string, email: string, password: string, activeCode: string | null): void,
     logUserIn(email: string, password: string, activeCode: string | null): void,
     logUserOut(): Promise<void>
@@ -23,39 +24,39 @@ export const useAuth = (): useAuthReturn => {
     } = useUser();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | undefined>("")
     const [user, setUser] = useState<IUser>()
 
     const createUser = async (displayName: string, email: string, password: string, activeCode: string | null) => {
         setIsLoading(true);
 
-        const userCredential =  await createUserWithEmailAndPassword(auth, email, password);
-        const firebaseUser = userCredential.user;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const firebaseUser = userCredential.user;
+                const user = await addUserToDatabase(firebaseUser, displayName, email);
 
-        addUserToDatabase(firebaseUser, displayName, email)
-            .then((user) => {
                 setUser(user);
                 addUserToAttendanceList(activeCode, user.userId);
             })
             .catch((error) => {
-                alert("Erro ao criar conta: " + error.message);
+                setError(error.message);
             })
             .finally(() => {
                 setIsLoading(false);
-            })
+            });
     }
 
     const logUserIn = async (email: string, password: string, activeCode: string | null) => {
         setIsLoading(true);
 
-        await signInWithEmailAndPassword(auth, email, password);
-
-        getUserFromDatabase(email)
-            .then((user) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then(async () => {
+                const user = await getUserFromDatabase(email);
                 setUser(user);
                 addUserToAttendanceList(activeCode, user.userId);
             })
             .catch((error) => {
-                console.log("Error getting documents: ", error);
+                setError(error.message);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -70,6 +71,7 @@ export const useAuth = (): useAuthReturn => {
     return {
         isLoading,
         user,
+        error,
         createUser,
         logUserIn,
         logUserOut

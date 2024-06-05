@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import "./DropdownStyles.css";
 import {generateHours} from "../../../utils/utils";
+import useClickOutside from "../../../hooks/use-click-outside/useClickOutside";
 
 const hours = generateHours(7, 22, 30);
 
@@ -13,6 +14,7 @@ type HoursDropdownProps = {
 
 const HoursDropdown = ({hoursValidFrom, selectedHour, onChange}: HoursDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = React.useRef<HTMLDivElement | null>(null);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -21,10 +23,12 @@ const HoursDropdown = ({hoursValidFrom, selectedHour, onChange}: HoursDropdownPr
         onChange(hour);
     }
 
+    useClickOutside(dropdownRef, () => setIsOpen(false));
+
     const validHours = hoursValidFrom ? hours.filter((hour) => hour > hoursValidFrom) : hours;
 
     return (
-        <div className="dropdown-container">
+        <div className="dropdown-container" ref={dropdownRef}>
             <div className="dropdown-header" onClick={toggleDropdown}>
                 {selectedHour || validHours[0]}
             </div>

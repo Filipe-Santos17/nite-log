@@ -10,6 +10,7 @@ import PasswordInput from "../../../core/components/custom-input/PasswordInput";
 import FilledButton from "../../../core/components/filled-btn/FilledButton";
 import Loading from "../../../core/components/loading/Loading";
 import {checkValues} from "../../../core/utils/utils";
+import ErrorModal from "../error-modal/ErrorModal";
 
 type FormValues = {
     email: string;
@@ -23,10 +24,13 @@ const LoginPage = () => {
     const {
         isLoading,
         user,
+        error,
         logUserIn
     } = useAuth()
 
     const [isError, setIsError] = useState(false);
+    const [loginError, setLoginError] = useState<string | undefined>("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<FormValues>({
         email: '',
         password: ''
@@ -57,6 +61,13 @@ const LoginPage = () => {
         // eslint-disable-next-line
     }, [user])
 
+    useEffect(() => {
+        if (error !== "" || error !== undefined) {
+            setLoginError(error);
+            setIsModalOpen(true);
+        }
+    }, [error])
+
     return (
         <form onSubmit={submitHandler}>
             {isError &&
@@ -78,6 +89,12 @@ const LoginPage = () => {
             />
 
             {isLoading && <Loading />}
+            {isModalOpen &&
+                <ErrorModal
+                    setIsModalOpen={setIsModalOpen}
+                    error={loginError}
+                />
+            }
         </form>
     );
 };
