@@ -29,7 +29,7 @@ const LoginPage = () => {
     } = useAuth()
 
     const [isError, setIsError] = useState(false);
-    const [loginError, setLoginError] = useState<string | undefined>("");
+    const [loginError, setLoginError] = useState<string | null | undefined>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<FormValues>({
         email: '',
@@ -62,7 +62,7 @@ const LoginPage = () => {
     }, [user])
 
     useEffect(() => {
-        if (error !== "" || error !== undefined) {
+        if (error) {
             setLoginError(error);
             setIsModalOpen(true);
         }

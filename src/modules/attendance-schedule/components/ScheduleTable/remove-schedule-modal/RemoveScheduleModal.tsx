@@ -29,7 +29,7 @@ const RemoveScheduleModal = ({setIsModalOpen, dayOfWeek, removeSchedule}: Remove
             <div className="input-modal">
                 <span className="modal-title">Remover horário</span>
                 <p>Tem certeza que deseja remover o horário?</p>
-                <div className="btn-area">
+                <div className="btn-area-error">
                     <FilledButton
                         title="Cancelar"
                         className="cancel-btn"

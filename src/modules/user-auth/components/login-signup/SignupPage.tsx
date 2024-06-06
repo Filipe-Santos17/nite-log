@@ -30,7 +30,7 @@ const SignupPage = () => {
     } = useAuth();
 
     const [isError, setIsError] = useState(false);
-    const [signupError, setSignupError] = useState<string | undefined>("");
+    const [signupError, setSignupError] = useState<string | undefined | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<FormValues>({
         username: '',
@@ -69,7 +69,7 @@ const SignupPage = () => {
     }, [user]);
 
     useEffect(() => {
-        if (error !== "" || error !== undefined) {
+        if (error) {
             setSignupError(error);
             setIsModalOpen(true);
         }

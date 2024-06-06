@@ -6,7 +6,7 @@ import "./ErrorModal.css";
 
 type ErrorModalProps = {
     setIsModalOpen: (isOpen: boolean) => void;
-    error: string | undefined;
+    error: string | undefined | null;
 }
 
 const ErrorModal = ({setIsModalOpen, error}: ErrorModalProps) => {
@@ -21,11 +21,11 @@ const ErrorModal = ({setIsModalOpen, error}: ErrorModalProps) => {
     }
 
     return (
-        <ModalBox onClick={closeModal}>
+        <ModalBox onClick={closeModal} className="error-modal">
             <div className="modal">
                 <span className="modal-title">Erro</span>
                 <p>{error}</p>
-                <div className="btn-area">
+                <div className="btn-area-error">
                     <FilledButton
                         title="Fechar"
                         className="btn"

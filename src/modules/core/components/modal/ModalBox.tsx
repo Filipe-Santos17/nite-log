@@ -4,11 +4,12 @@ import './ModalBox.css';
 
 type ModalBoxProps = {
     onClick: MouseEventHandler<HTMLDivElement>;
+    className?: string;
 }
 
-const ModalBox = ({onClick, children}: PropsWithChildren<ModalBoxProps>) => {
+const ModalBox = ({onClick, className, children}: PropsWithChildren<ModalBoxProps>) => {
     return (
-        <div className="modal-box" onClick={onClick}>
+        <div className={`modal-box ${className}`} onClick={onClick}>
             <div className="modal-content">
                 {children}
             </div>
