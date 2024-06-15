@@ -9,6 +9,8 @@ import UserAuth from "../../user-auth/components/UserAuth";
 import AttendanceAndSchedules from "../../attendance-schedule/components/AttendanceAndSchedules";
 import UserPage from "../../user-page/components/UserPage";
 
+import TabelaAvaliador from "../../user-tabela/table";
+
 const MainPage = () => {
     const {
         globalUser,
@@ -45,6 +47,9 @@ const MainPage = () => {
                 <UserPage
                     navigateToAttendanceSchedule={() => navigate(`/home`)}
                 />
+            </Route>
+            <Route path="/tabela">
+                <TabelaAvaliador/>
             </Route>
         </main>
     );

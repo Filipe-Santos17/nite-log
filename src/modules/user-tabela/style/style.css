@@ -1,0 +1,89 @@
+.container-table {
+  max-height: 70vh;
+  width: 90vw;
+  gap: 0.5rem;
+  justify-content: start;
+  align-items: end;
+
+  .box-table {
+    overflow: auto;
+    width: 100%;
+  }
+
+  .tabela-main {
+    width: 100%;
+    height: max-content;
+    border-collapse: collapse;
+    color: #fff;
+    padding: 1.25rem;
+    border: 1px solid transparent;
+    font-size: .8rem;
+
+    th {
+      background-color: #686e74;
+      color: #fff;
+      text-align: center;
+      text-transform: capitalize;
+    }
+
+    tbody td {
+      padding: 10px;
+      border-top: none;
+      border: 1px solid #ffffff50;
+    }
+
+    .name-table, .task-table, .obs-table {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 20ch;
+    }
+
+    svg{
+      width: 20px;
+      height: 20px;
+    }
+
+    .task-stars {
+      margin: auto;
+
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+      }
+    }
+
+    .btn-view {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: .25rem;
+      padding: .5rem,0, .5rem,0;
+      gap: .625rem;
+      background-color: #FEF2E9;
+      cursor: pointer;
+    }
+
+    .btn-view:hover{
+      background-color: #F4801F;
+    }
+
+    .task-icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  /*borders*/
+  thead th:first-child {
+    border-top-left-radius: 0.5rem;
+  }
+
+  thead th:last-child {
+    border-top-right-radius: 0.5rem;
+  }
+}
