@@ -5,7 +5,16 @@ import isItApproved from '../utils/isItApproved';
 import StarIcon from './starIcon';
 import ViewIcon from './viewIcon';
 
-export default function TrLine({ data }: { data: DataTable }) {
+interface TrLineInterface {
+  data: DataTable
+  openModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function TrLine({ data, openModal }: TrLineInterface) {
+
+  function openModalHandleClicked(){
+    openModal(true)
+  }
 
   const starsNumber = Array.from(Array(5).keys())
 
@@ -37,7 +46,7 @@ export default function TrLine({ data }: { data: DataTable }) {
         {data.obs}
       </td>
       <td className='task-icon'>
-        <div className='btn-view'>
+        <div className='btn-view' onClick={openModalHandleClicked}>
           <ViewIcon />
         </div>
       </td>

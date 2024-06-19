@@ -18,16 +18,22 @@ export default function Modal({open, setOpen}: ModalProps){
         <>
             {open && (
                 <section className="modal-box" onClick={handleClickModal}>
+                    <article>
+                        Crie suas informações
+                    </article>
                     <div className="modal-content modal-table">
                         <div className="box-one">
                             <Input type="text" id="name" title="Nome"/>
                             <section>
-                                <Input type="text" id="name" title="Data"/>
-                                <Input type="text" id="name" title="Hora"/>
+                                <Input type="date" id="data-time" title="Data"/>
+                                <Input type="time" id="hour-time" title="Hora"/>
                             </section>
                             <section>
                                 <Input type="text" id="name" title="Aprovado"/>
-                                <Input type="text" id="name" title="Execução"/>
+                                <div className="input-component">
+                                    <label htmlFor="estrelas">Execução</label>
+                                    {/* <input id={id} {...props}/> */}
+                                </div>
                             </section>
                             <textarea name="" id=""></textarea>
                         </div>
