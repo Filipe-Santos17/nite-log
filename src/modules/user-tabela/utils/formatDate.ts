@@ -19,7 +19,7 @@ export default function formatDate(dateString: string, opt: "date" | "hour") {
 }
 
 function isValidDate(date: string) {
-  const DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+  const DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\d{1})?Z$/;
 
   return DateRegex.test(date);
 }
