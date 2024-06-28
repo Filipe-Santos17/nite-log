@@ -8,7 +8,7 @@ export default function formatDate(dateString: string, opt: "date" | "hour") {
     }
 
     const timeView = {
-      date: data.toLocaleDateString(),
+      date: data.toLocaleDateString("pt-br"),
       hour: makeHour(),
     };
 
@@ -19,7 +19,7 @@ export default function formatDate(dateString: string, opt: "date" | "hour") {
 }
 
 function isValidDate(date: string) {
-  const DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\d{1})?Z$/;
+  const DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
 
   return DateRegex.test(date);
 }
